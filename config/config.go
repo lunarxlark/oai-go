@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type Config struct {
@@ -13,7 +14,7 @@ type Config struct {
 var OAIConfig Config
 
 func Load() {
-	OAIConfig.Dir = "~/.config/openai-go/"
+	OAIConfig.Dir = filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-go")
 	OAIConfig.ApiKey = os.Getenv("OPENAI_API_KEY")
 
 	dir, err := os.Open(OAIConfig.Dir)
