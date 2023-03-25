@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func CmdEdit(ctx *cli.Context) error {
+func CmdContinue(ctx *cli.Context) error {
 	model, err := model.List()
 	if err != nil {
 		return err
