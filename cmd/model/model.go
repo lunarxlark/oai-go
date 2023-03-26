@@ -11,7 +11,7 @@ import (
 	"text/tabwriter"
 
 	ff "github.com/ktr0731/go-fuzzyfinder"
-	"github.com/lunarxlark/openai-go/models/model"
+	"github.com/lunarxlark/oai-go/models/model"
 	"github.com/urfave/cli/v2"
 )
 
