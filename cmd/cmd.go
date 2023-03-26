@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/lunarxlark/openai-go/cmd/chat"
-	"github.com/lunarxlark/openai-go/cmd/model"
-	"github.com/lunarxlark/openai-go/cmd/whisper"
+	"github.com/lunarxlark/oai-go/cmd/chat"
+	"github.com/lunarxlark/oai-go/cmd/model"
+	"github.com/lunarxlark/oai-go/cmd/whisper"
 	"github.com/urfave/cli/v2"
 )
 

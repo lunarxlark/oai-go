@@ -1,4 +1,4 @@
-module github.com/lunarxlark/openai-go
+module github.com/lunarxlark/oai-go
 
 go 1.20
 

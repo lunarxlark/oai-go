@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lunarxlark/openai-go/cmd/model"
+	"github.com/lunarxlark/oai-go/cmd/model"
 	"github.com/urfave/cli/v2"
 )
 
