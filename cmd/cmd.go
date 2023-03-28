@@ -9,6 +9,18 @@ import (
 
 var Commands = []*cli.Command{
 	{
+		Name:    "model",
+		Aliases: []string{"m"},
+		Subcommands: []*cli.Command{
+			{
+				Name:        "list",
+				Aliases:     []string{"l"},
+				Description: "list model",
+				Action:      model.CmdList,
+			},
+		},
+	},
+	{
 		Name:    "chat",
 		Aliases: []string{"c"},
 		Subcommands: []*cli.Command{
@@ -29,17 +41,5 @@ var Commands = []*cli.Command{
 		Name:    "whisper",
 		Aliases: []string{"w"},
 		Action:  whisper.Exec,
-	},
-	{
-		Name:    "model",
-		Aliases: []string{"m"},
-		Subcommands: []*cli.Command{
-			{
-				Name:        "list",
-				Aliases:     []string{"l"},
-				Description: "list model",
-				Action:      model.CmdList,
-			},
-		},
 	},
 }
