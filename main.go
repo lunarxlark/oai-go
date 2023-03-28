@@ -12,7 +12,7 @@ import (
 func main() {
 	app := cli.NewApp()
 	app.Name = "oai"
-	app.Usage = "play open ai"
+	app.Usage = "play openai"
 	app.Version = "0.0.1"
 	app.Commands = cmd.Commands
 	app.Before = before
