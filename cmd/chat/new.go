@@ -24,7 +24,7 @@ func CmdNew(ctx *cli.Context) error {
 	}
 	defer log.Close()
 
-	conversation := new(Conversation)
+	conversation := &Conversation{Model: model}
 
 	sc := bufio.NewScanner(os.Stdin)
 	for {

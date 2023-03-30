@@ -6,6 +6,7 @@ import (
 
 type Conversation struct {
 	Summary  string    `json:"summary"`
+	Model    string    `json:"model"`
 	Messages []Message `json:"messages"`
 }
 
