@@ -8,6 +8,6 @@ import (
 )
 
 func Clean(ctx *cli.Context) error {
-	os.RemoveAll(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "oai", "chat", "*"))
+	os.RemoveAll(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-cli", "chat", "*"))
 	return nil
 }
