@@ -18,7 +18,7 @@ func CmdNew(ctx *cli.Context) error {
 		return err
 	}
 
-	log, err := os.Create(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "oai", "chat", fmt.Sprintf("%d.json", time.Now().Unix())))
+	log, err := os.Create(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-cli", "chat", fmt.Sprintf("%d.json", time.Now().Unix())))
 	if err != nil {
 		return err
 	}

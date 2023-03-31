@@ -11,7 +11,7 @@ import (
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "oai"
+	app.Name = "openai-cli"
 	app.Usage = "play openai"
 	app.Version = "0.0.1"
 	app.Commands = cmd.Commands
