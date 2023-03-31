@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/lunarxlark/oai-go/cmd"
-	"github.com/lunarxlark/oai-go/config"
+	"github.com/lunarxlark/openai-cli/cmd"
+	"github.com/lunarxlark/openai-cli/config"
 	"github.com/urfave/cli/v2"
 )
 

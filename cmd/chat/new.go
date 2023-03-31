@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/lunarxlark/oai-go/cmd/model"
+	"github.com/lunarxlark/openai-cli/cmd/model"
 	"github.com/urfave/cli/v2"
 )
 
