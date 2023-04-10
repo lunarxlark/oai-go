@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/lunarxlark/openai-cli/api"
 	"github.com/lunarxlark/openai-cli/cmd/model"
 	"github.com/urfave/cli/v2"
 )
@@ -28,7 +29,7 @@ func CmdNew(ctx *cli.Context) error {
 
 	sc := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Printf("%s > ", user)
+		fmt.Printf("%s > ", api.User)
 		if !sc.Scan() {
 			conversation.Summary, err = CreateSummay(model, conversation.Messages)
 			b, err := json.MarshalIndent(conversation, "", "  ")
@@ -40,20 +41,20 @@ func CmdNew(ctx *cli.Context) error {
 			}
 			break
 		}
-		statement := []Message{{
-			Role:    user,
+		statement := []api.Message{{
+			Role:    api.User,
 			Content: sc.Text(),
 		}}
 		conversation.Messages = append(conversation.Messages, statement...)
 
-		res, err := CreateReq(model, statement).Request()
+		res, err := api.CreateReq(model, statement).Request()
 		if err != nil {
 			return err
 		}
 
 		for _, choice := range res.Choices {
 			fmt.Println(choice.Message.String())
-			conversation.Messages = append(conversation.Messages, Message{
+			conversation.Messages = append(conversation.Messages, api.Message{
 				Role:    choice.Message.Role,
 				Content: choice.Message.Content,
 			})

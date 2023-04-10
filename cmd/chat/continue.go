@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	ff "github.com/ktr0731/go-fuzzyfinder"
+	"github.com/lunarxlark/openai-cli/api"
 	"github.com/urfave/cli/v2"
 )
 
@@ -36,7 +37,7 @@ func CmdContinue(ctx *cli.Context) error {
 			var preview strings.Builder
 			for _, m := range conversation.Messages {
 				switch m.Role {
-				case user:
+				case api.User:
 					preview.WriteString(fmt.Sprintf("> %s\n", m.Content))
 				default:
 					preview.WriteString(m.Content + "\n")
@@ -60,7 +61,7 @@ func CmdContinue(ctx *cli.Context) error {
 
 	sc := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Printf("%s > ", user)
+		fmt.Printf("%s > ", api.User)
 		if !sc.Scan() {
 			conversation.Summary, err = CreateSummay(conversation.Model, conversation.Messages)
 			b, err := json.MarshalIndent(conversation, "", "  ")
@@ -72,13 +73,13 @@ func CmdContinue(ctx *cli.Context) error {
 			}
 			break
 		}
-		statement := []Message{{
-			Role:    user,
+		statement := []api.Message{{
+			Role:    api.User,
 			Content: sc.Text(),
 		}}
 		conversation.Messages = append(conversation.Messages, statement...)
 
-		res, err := CreateReq(conversation.Model, conversation.Messages).Request()
+		res, err := api.CreateReq(conversation.Model, conversation.Messages).Request()
 		if err != nil {
 			return err
 		}

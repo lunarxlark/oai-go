@@ -1,4 +1,4 @@
-package chat
+package api
 
 import (
 	"bytes"
@@ -6,15 +6,16 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strings"
 )
 
 const (
-	url = "https://api.openai.com/v1/chat/completions"
+	chatURL = "https://api.openai.com/v1/chat/completions"
 )
 
+type Role string
+
 const (
-	user string = "user"
+	User Role = "user"
 )
 
 type Request struct {
@@ -38,7 +39,7 @@ func (r *Request) Request() (*Response, error) {
 		return nil, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(payload))
+	req, err := http.NewRequest(http.MethodPost, chatURL, bytes.NewReader(payload))
 	if err != nil {
 		return nil, err
 	}
@@ -63,34 +64,4 @@ func (r *Request) Request() (*Response, error) {
 	}
 
 	return resbody, nil
-}
-
-type Response struct {
-	ID      string   `json:"id"`
-	Object  string   `json:"object"`
-	Created int64    `json:"created"`
-	Model   string   `json:"model"`
-	Usage   Usage    `json:"usage"`
-	Choices []Choice `json:"choices"`
-}
-
-type Usage struct {
-	PromptTokens     int `json:"prompt_tokens"`
-	CompletionTokens int `json:"completion_tokens"`
-	TotalTokens      int `json:"total_tokens"`
-}
-
-type Choice struct {
-	Message      Message `json:"message"`
-	FinishReason string  `json:"finish_reason"`
-	Index        int     `json:"index"`
-}
-
-type Message struct {
-	Role    string `json:"role"`
-	Content string `json:"content"`
-}
-
-func (m Message) String() string {
-	return m.Role + " > " + strings.TrimSpace(m.Content)
 }
