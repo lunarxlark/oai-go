@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"strings"
 	"text/tabwriter"
 
 	ff "github.com/ktr0731/go-fuzzyfinder"
+	"github.com/lunarxlark/openai-cli/config"
 	"github.com/lunarxlark/openai-cli/models/model"
 	"github.com/urfave/cli/v2"
 )
@@ -27,7 +27,7 @@ func CmdList(ctx *cli.Context) error {
 	if err != nil {
 		return err
 	}
-	req.Header.Add("Authorization", "Bearer "+os.Getenv("OPENAI_API_KEY"))
+	req.Header.Add("Authorization", "Bearer "+config.OAIConfig.APIKey)
 
 	res, err := client.Do(req)
 	if err != nil {
@@ -51,7 +51,7 @@ func List() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	req.Header.Add("Authorization", "Bearer "+os.Getenv("OPENAI_API_KEY"))
+	req.Header.Add("Authorization", "Bearer "+config.OAIConfig.APIKey)
 
 	res, err := client.Do(req)
 	if err != nil {

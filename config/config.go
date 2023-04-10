@@ -8,14 +8,14 @@ import (
 
 type Config struct {
 	Dir    string
-	ApiKey string
+	APIKey string
 }
 
 var OAIConfig Config
 
 func Load() {
 	OAIConfig.Dir = filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-go")
-	OAIConfig.ApiKey = os.Getenv("OPENAI_API_KEY")
+	OAIConfig.APIKey = os.Getenv("OPENAI_API_KEY")
 
 	dir, err := os.Open(OAIConfig.Dir)
 	if err != nil {

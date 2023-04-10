@@ -22,8 +22,6 @@ func main() {
 	}
 }
 
-var API_KEY string
-
 func before(ctx *cli.Context) error {
 	config.Load()
 	return nil

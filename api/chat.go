@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"os"
+
+	"github.com/lunarxlark/openai-cli/config"
 )
 
 const (
@@ -44,7 +45,7 @@ func (r *Request) Request() (*Response, error) {
 		return nil, err
 	}
 
-	req.Header.Set("Authorization", "Bearer "+os.Getenv("OPENAI_API_KEY"))
+	req.Header.Set("Authorization", "Bearer "+config.OAIConfig.APIKey)
 	req.Header.Set("Content-Type", "application/json")
 
 	client := new(http.Client)
