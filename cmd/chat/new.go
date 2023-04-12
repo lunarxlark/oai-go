@@ -15,9 +15,13 @@ import (
 )
 
 func CmdNew(ctx *cli.Context) error {
-	model, err := model.List()
-	if err != nil {
-		return err
+	m := ctx.String("model")
+	if m == "" {
+		var err error
+		m, err = model.List()
+		if err != nil {
+			return err
+		}
 	}
 
 	log, err := os.Create(filepath.Join(config.OAIConfig.Dir, "chat", fmt.Sprintf("%d.json", time.Now().Unix())))
@@ -26,13 +30,13 @@ func CmdNew(ctx *cli.Context) error {
 	}
 	defer log.Close()
 
-	conversation := &Conversation{Model: model}
+	conversation := &Conversation{Model: m}
 
 	sc := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Printf("%s > ", api.User)
 		if !sc.Scan() {
-			conversation.Summary, err = CreateSummay(model, conversation.Messages)
+			conversation.Summary, err = CreateSummay(m, conversation.Messages)
 			b, err := json.MarshalIndent(conversation, "", "  ")
 			if err != nil {
 				return err
@@ -48,7 +52,7 @@ func CmdNew(ctx *cli.Context) error {
 		}}
 		conversation.Messages = append(conversation.Messages, statement...)
 
-		res, err := api.CreateReq(model, statement).Request()
+		res, err := api.CreateReq(m, statement).Request()
 		if err != nil {
 			return err
 		}
