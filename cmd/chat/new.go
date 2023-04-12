@@ -10,6 +10,7 @@ import (
 
 	"github.com/lunarxlark/openai-cli/api"
 	"github.com/lunarxlark/openai-cli/cmd/model"
+	"github.com/lunarxlark/openai-cli/config"
 	"github.com/urfave/cli/v2"
 )
 
@@ -19,7 +20,7 @@ func CmdNew(ctx *cli.Context) error {
 		return err
 	}
 
-	log, err := os.Create(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-cli", "chat", fmt.Sprintf("%d.json", time.Now().Unix())))
+	log, err := os.Create(filepath.Join(config.OAIConfig.Dir, "chat", fmt.Sprintf("%d.json", time.Now().Unix())))
 	if err != nil {
 		return err
 	}

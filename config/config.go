@@ -14,7 +14,7 @@ type Config struct {
 var OAIConfig Config
 
 func Load() {
-	OAIConfig.Dir = filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-go")
+	OAIConfig.Dir = filepath.Join(os.Getenv("XDG_DATA_HOME"), "openai-cli")
 	OAIConfig.APIKey = os.Getenv("OPENAI_API_KEY")
 
 	dir, err := os.Open(OAIConfig.Dir)
