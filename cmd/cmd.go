@@ -30,6 +30,12 @@ var Commands = []*cli.Command{
 				Aliases:     []string{"n"},
 				Description: "new chat",
 				Action:      chat.CmdNew,
+				Flags: []cli.Flag{
+					&cli.StringFlag{
+						Name:        "model",
+						DefaultText: "gpt-3.5-turbo-0301",
+					},
+				},
 			}, {
 				Name:        "continue",
 				Aliases:     []string{"c"},
