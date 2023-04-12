@@ -11,6 +11,7 @@ import (
 
 	ff "github.com/ktr0731/go-fuzzyfinder"
 	"github.com/lunarxlark/openai-cli/api"
+	"github.com/lunarxlark/openai-cli/config"
 	"github.com/urfave/cli/v2"
 )
 
@@ -24,7 +25,7 @@ func CmdContinue(ctx *cli.Context) error {
 		return fs[i]
 	},
 		ff.WithPreviewWindow(func(i, w, h int) string {
-			fb, err := os.ReadFile(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-cli", "chat", fs[i]))
+			fb, err := os.ReadFile(filepath.Join(config.OAIConfig.Dir, "chat", fs[i]))
 			if err != nil {
 				log.Fatal(fmt.Errorf("failed to read log files for preview. %w", err))
 			}
@@ -49,7 +50,7 @@ func CmdContinue(ctx *cli.Context) error {
 		return fmt.Errorf("failed to fuzzy-find for log file. %w", err)
 	}
 
-	fb, err := os.ReadFile(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-cli", "chat", fs[i]))
+	fb, err := os.ReadFile(filepath.Join(config.OAIConfig.Dir, "chat", fs[i]))
 	if err != nil {
 		return err
 	}
@@ -68,7 +69,7 @@ func CmdContinue(ctx *cli.Context) error {
 			if err != nil {
 				return err
 			}
-			if err := os.WriteFile(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-cli", "chat", fs[i]), b, 0644); err != nil {
+			if err := os.WriteFile(filepath.Join(config.OAIConfig.Dir, "chat", fs[i]), b, 0644); err != nil {
 				return err
 			}
 			break
@@ -93,7 +94,7 @@ func CmdContinue(ctx *cli.Context) error {
 }
 
 func ListLog() ([]string, error) {
-	des, err := os.ReadDir(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "openai-cli", "chat"))
+	des, err := os.ReadDir(filepath.Join(config.OAIConfig.Dir, "chat"))
 	if err != nil {
 		return nil, err
 	}
