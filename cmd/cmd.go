@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/lunarxlark/openai-cli/cmd/chat"
 	"github.com/lunarxlark/openai-cli/cmd/history"
+	"github.com/lunarxlark/openai-cli/cmd/image"
 	"github.com/lunarxlark/openai-cli/cmd/model"
 	"github.com/lunarxlark/openai-cli/cmd/whisper"
 	"github.com/urfave/cli/v2"
@@ -41,6 +42,17 @@ var Commands = []*cli.Command{
 				Aliases:     []string{"c"},
 				Description: "continue chat",
 				Action:      chat.CmdContinue,
+			},
+		},
+	},
+	{
+		Name:    "image",
+		Aliases: []string{"i"},
+		Action:  image.Exec,
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:        "format",
+				DefaultText: "b64_json",
 			},
 		},
 	},
