@@ -51,6 +51,10 @@ var Commands = []*cli.Command{
 		Action:  image.Exec,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
+				Name:     "prompt",
+				Required: true,
+			},
+			&cli.StringFlag{
 				Name:        "format",
 				DefaultText: "b64_json",
 			},
