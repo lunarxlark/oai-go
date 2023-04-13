@@ -38,13 +38,20 @@ type ImageRes struct {
 }
 
 func Exec(ctx *cli.Context) error {
+	var prompt string
+	if len(ctx.String("prompt")) >= 1000 {
+		prompt = ctx.String("prompt")[:1000]
+	} else {
+		prompt = ctx.String("prompt")
+	}
+
 	format := "b64_json"
 	if ctx.String("format") == "" {
 		format = ctx.String("format")
 	}
 
 	payload, err := json.Marshal(ImageReq{
-		Prompt:         "cat",
+		Prompt:         prompt,
 		N:              1,
 		Size:           "1024x1024",
 		ResponseFormat: format,
