@@ -29,6 +29,11 @@ $ openai-cli chat continue
 
 - [ ] /v1/edits
 - [x] /v1/images/generatoins
+
+```bash
+$ openai-cli image --promt "cat"
+```
+
 - [ ] /v1/images/edits
 - [ ] /v1/images/variations
 - [ ] /v1/embeddings
