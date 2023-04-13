@@ -28,7 +28,7 @@ $ openai-cli chat continue
 ```
 
 - [ ] /v1/edits
-- [ ] /v1/images/generatoins
+- [x] /v1/images/generatoins
 - [ ] /v1/images/edits
 - [ ] /v1/images/variations
 - [ ] /v1/embeddings
