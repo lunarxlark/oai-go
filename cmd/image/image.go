@@ -45,15 +45,13 @@ func Exec(ctx *cli.Context) error {
 		prompt = ctx.String("prompt")
 	}
 
-	format := "b64_json"
-	if ctx.String("format") == "" {
-		format = ctx.String("format")
-	}
+	format := ctx.String("format")
+	size := ctx.String("size")
 
 	payload, err := json.Marshal(ImageReq{
 		Prompt:         prompt,
 		N:              1,
-		Size:           "1024x1024",
+		Size:           size,
 		ResponseFormat: format,
 		User:           api.User,
 	})

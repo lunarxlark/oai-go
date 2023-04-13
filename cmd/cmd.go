@@ -57,6 +57,14 @@ var Commands = []*cli.Command{
 			&cli.StringFlag{
 				Name:        "format",
 				DefaultText: "b64_json",
+				Value:       "b64_json",
+				Usage:       "response format. {b64_json|url}",
+			},
+			&cli.StringFlag{
+				Name:        "size",
+				DefaultText: "1024x1024",
+				Value:       "1024x1024",
+				Usage:       "size of image. {256x265|512x512|1024x1024}",
 			},
 		},
 	},
