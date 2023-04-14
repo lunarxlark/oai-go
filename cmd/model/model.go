@@ -21,6 +21,9 @@ const (
 
 func CmdList(ctx *cli.Context) error {
 	modelID, err := List()
+	if err != nil {
+		return err
+	}
 
 	client := new(http.Client)
 	req, err := http.NewRequest(http.MethodGet, url+"/"+modelID, nil)
