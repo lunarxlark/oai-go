@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"github.com/lunarxlark/openai-cli/cmd/chat"
+	"github.com/lunarxlark/openai-cli/cmd/file"
 	"github.com/lunarxlark/openai-cli/cmd/history"
 	"github.com/lunarxlark/openai-cli/cmd/image"
 	"github.com/lunarxlark/openai-cli/cmd/model"
-	"github.com/lunarxlark/openai-cli/cmd/whisper"
 	"github.com/urfave/cli/v2"
 )
 
@@ -71,7 +71,18 @@ var Commands = []*cli.Command{
 	{
 		Name:    "whisper",
 		Aliases: []string{"w"},
-		Action:  whisper.Exec,
+	},
+	{
+		Name: "file",
+		Subcommands: []*cli.Command{
+			{
+				Name:   "list",
+				Action: file.List,
+				// }, {
+				// 	Name:   "upload",
+				// 	Action: file.Upload,
+			},
+		},
 	},
 	{
 		Name:    "history",
