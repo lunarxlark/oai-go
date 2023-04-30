@@ -17,7 +17,7 @@ type Request struct {
 	Instruction string  `json:"instruction"`
 	N           int     `json:"n"`
 	Temperature float64 `json:"temperature"`
-	TopP        int     `json:"top_p"`
+	TopP        float64 `json:"top_p"`
 }
 
 const (
@@ -28,12 +28,12 @@ func Exec(ctx *cli.Context) error {
 	client := http.Client{}
 
 	payload, err := json.Marshal(Request{
-		Model:       "text-davinci-edit-001",
-		Input:       "hello wrold!!",
-		Instruction: "fix the spelling mistakes.",
-		N:           1,
-		Temperature: 0,
-		TopP:        0,
+		Model:       ctx.String("model"),
+		Input:       ctx.String("input"),
+		Instruction: ctx.String("instruction"),
+		N:           ctx.Int("n"),
+		Temperature: ctx.Float64("temperature"),
+		TopP:        ctx.Float64("top_p"),
 	})
 	if err != nil {
 		return err
