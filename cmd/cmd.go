@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/lunarxlark/openai-cli/cmd/chat"
+	"github.com/lunarxlark/openai-cli/cmd/edit"
 	"github.com/lunarxlark/openai-cli/cmd/file"
 	"github.com/lunarxlark/openai-cli/cmd/history"
 	"github.com/lunarxlark/openai-cli/cmd/image"
@@ -83,6 +84,10 @@ var Commands = []*cli.Command{
 				// 	Action: file.Upload,
 			},
 		},
+	},
+	{
+		Name:   "edit",
+		Action: edit.Exec,
 	},
 	{
 		Name:    "history",
