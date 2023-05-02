@@ -27,7 +27,7 @@ $ openai-cli chat new
 $ openai-cli chat continue
 ```
 
-- [ ] /v1/edits
+- [x] POST /v1/edits
 - [x] /v1/images/generatoins
 
 ```bash
