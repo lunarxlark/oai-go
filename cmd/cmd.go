@@ -4,7 +4,6 @@ import (
 	"github.com/lunarxlark/openai-cli/cmd/chat"
 	"github.com/lunarxlark/openai-cli/cmd/edit"
 	"github.com/lunarxlark/openai-cli/cmd/file"
-	"github.com/lunarxlark/openai-cli/cmd/history"
 	"github.com/lunarxlark/openai-cli/cmd/image"
 	"github.com/lunarxlark/openai-cli/cmd/model"
 	"github.com/urfave/cli/v2"
@@ -17,7 +16,6 @@ var Commands = []*cli.Command{
 	cmdWhisper,
 	cmdFile,
 	cmdEdit,
-	cmdHistory,
 }
 
 var cmdModel = &cli.Command{
@@ -48,11 +46,17 @@ var cmdChat = &cli.Command{
 					DefaultText: "gpt-3.5-turbo-0301",
 				},
 			},
-		}, {
+		},
+		{
 			Name:        "continue",
 			Aliases:     []string{"c"},
 			Description: "continue chat",
 			Action:      chat.CmdContinue,
+		},
+		{
+			Name:    "clear",
+			Aliases: []string{"h"},
+			Action:  chat.Clear,
 		},
 	},
 }
@@ -128,10 +132,4 @@ var cmdEdit = &cli.Command{
 			Value: 1,
 		},
 	},
-}
-
-var cmdHistory = &cli.Command{
-	Name:    "history",
-	Aliases: []string{"h"},
-	Action:  history.Clean,
 }
