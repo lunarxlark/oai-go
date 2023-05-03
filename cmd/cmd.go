@@ -10,15 +10,15 @@ import (
 )
 
 var Commands = []*cli.Command{
-	cmdModel,
-	cmdChat,
-	cmdImage,
-	cmdWhisper,
-	cmdFile,
-	cmdEdit,
+	&cmdModel,
+	&cmdChat,
+	&cmdImage,
+	&cmdWhisper,
+	&cmdFile,
+	&cmdEdit,
 }
 
-var cmdModel = &cli.Command{
+var cmdModel = cli.Command{
 	Name:    "model",
 	Aliases: []string{"m"},
 	Subcommands: []*cli.Command{
@@ -31,13 +31,12 @@ var cmdModel = &cli.Command{
 	},
 }
 
-var cmdChat = &cli.Command{
+var cmdChat = cli.Command{
 	Name:    "chat",
 	Aliases: []string{"c"},
 	Subcommands: []*cli.Command{
 		{
 			Name:        "new",
-			Aliases:     []string{"n"},
 			Description: "new chat",
 			Action:      chat.CmdNew,
 			Flags: []cli.Flag{
@@ -49,7 +48,6 @@ var cmdChat = &cli.Command{
 		},
 		{
 			Name:        "continue",
-			Aliases:     []string{"c"},
 			Description: "continue chat",
 			Action:      chat.CmdContinue,
 		},
@@ -61,36 +59,25 @@ var cmdChat = &cli.Command{
 	},
 }
 
-var cmdImage = &cli.Command{
+var cmdImage = cli.Command{
 	Name:    "image",
 	Aliases: []string{"i"},
 	Action:  image.Exec,
 	Flags: []cli.Flag{
-		&cli.StringFlag{
-			Name:     "prompt",
-			Required: true,
-		},
-		&cli.StringFlag{
-			Name:        "format",
-			DefaultText: "b64_json",
-			Value:       "b64_json",
-			Usage:       "response format. {b64_json|url}",
-		},
-		&cli.StringFlag{
-			Name:        "size",
-			DefaultText: "1024x1024",
-			Value:       "1024x1024",
-			Usage:       "size of image. {256x265|512x512|1024x1024}",
-		},
+		FlagPrompt,
+		FlagN,
+		FlagSize,
+		FlagFormat,
+		FlagUser,
 	},
 }
 
-var cmdWhisper = &cli.Command{
+var cmdWhisper = cli.Command{
 	Name:    "whisper",
 	Aliases: []string{"w"},
 }
 
-var cmdFile = &cli.Command{
+var cmdFile = cli.Command{
 	Name: "file",
 	Subcommands: []*cli.Command{
 		{
@@ -103,33 +90,18 @@ var cmdFile = &cli.Command{
 	},
 }
 
-var cmdEdit = &cli.Command{
+var cmdEdit = cli.Command{
 	Name:   "edit",
 	Action: edit.Exec,
 	Flags: []cli.Flag{
-		&cli.StringFlag{
-			Name:  "model",
-			Value: "text-davinci-edit-001",
-		},
+		FlagModel,
 		&cli.StringFlag{
 			Name:  "input",
 			Value: "hello wrold!!",
 		},
-		&cli.StringFlag{
-			Name:     "instruction",
-			Required: true,
-		},
-		&cli.IntFlag{
-			Name:  "n",
-			Value: 1,
-		},
-		&cli.Float64Flag{
-			Name:  "temperature",
-			Value: 1,
-		},
-		&cli.Float64Flag{
-			Name:  "top_p",
-			Value: 1,
-		},
+		FlagInstruction,
+		FlagN,
+		FlagTemperature,
+		FlagTopP,
 	},
 }

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -23,29 +24,28 @@ func CmdContinue(ctx *cli.Context) error {
 
 	i, err := ff.Find(fs, func(i int) string {
 		return fs[i]
-	},
-		ff.WithPreviewWindow(func(i, w, h int) string {
-			fb, err := os.ReadFile(filepath.Join(config.OAIConfig.Dir, "chat", fs[i]))
-			if err != nil {
-				log.Fatal(fmt.Errorf("failed to read log files for preview. %w", err))
-			}
-			log.Println(string(fb))
+	}, ff.WithPreviewWindow(func(i, w, h int) string {
+		fb, err := os.ReadFile(filepath.Join(config.OAIConfig.Dir, "chat", fs[i]))
+		if err != nil {
+			log.Fatal(fmt.Errorf("failed to read log files for preview. %w", err))
+		}
+		log.Println(string(fb))
 
-			conversation := new(Conversation)
-			if err := json.Unmarshal(fb, &conversation); err != nil {
-				log.Fatal(fmt.Errorf("failed to unmarshal json for log preview. %w", err))
+		req := new(request)
+		if err := json.Unmarshal(fb, &req); err != nil {
+			log.Fatal(fmt.Errorf("failed to unmarshal json for log preview. %w", err))
+		}
+		var preview strings.Builder
+		for _, m := range req.Messages {
+			switch m.Role {
+			case User:
+				preview.WriteString(fmt.Sprintf("> %s\n", m.Content))
+			default:
+				preview.WriteString(m.Content + "\n")
 			}
-			var preview strings.Builder
-			for _, m := range conversation.Messages {
-				switch m.Role {
-				case api.User:
-					preview.WriteString(fmt.Sprintf("> %s\n", m.Content))
-				default:
-					preview.WriteString(m.Content + "\n")
-				}
-			}
-			return fmt.Sprintf("Summary : %s\nModel : %s\nMessage : \n%s", conversation.Summary, conversation.Model, preview.String())
-		}))
+		}
+		return fmt.Sprintf("Model : %s\nMessage : \n%s", req.Model, preview.String())
+	}))
 	if err != nil {
 		return fmt.Errorf("failed to fuzzy-find for log file. %w", err)
 	}
@@ -55,17 +55,17 @@ func CmdContinue(ctx *cli.Context) error {
 		return err
 	}
 
-	conversation := new(Conversation)
-	if err := json.Unmarshal(fb, &conversation); err != nil {
+	req := new(request)
+	if err := json.Unmarshal(fb, &req); err != nil {
 		return err
 	}
 
 	sc := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Printf("%s > ", api.User)
+		fmt.Printf("%s > ", User)
 		if !sc.Scan() {
-			conversation.Summary, err = CreateSummay(conversation.Model, conversation.Messages)
-			b, err := json.MarshalIndent(conversation, "", "  ")
+			// conversation.Summary, err = CreateSummay(conversation.Model, conversation.Messages)
+			b, err := json.MarshalIndent(req, "", "  ")
 			if err != nil {
 				return err
 			}
@@ -74,20 +74,19 @@ func CmdContinue(ctx *cli.Context) error {
 			}
 			break
 		}
-		statement := []api.Message{{
-			Role:    api.User,
+		req.Messages = append(req.Messages, Message{
+			Role:    User,
 			Content: sc.Text(),
-		}}
-		conversation.Messages = append(conversation.Messages, statement...)
+		})
 
-		res, err := api.CreateReq(conversation.Model, conversation.Messages).Request()
-		if err != nil {
+		var res response
+		if err := api.Request(http.MethodPost, url, req, &res); err != nil {
 			return err
 		}
 
 		for _, choice := range res.Choices {
-			fmt.Println(choice.Message.String())
-			conversation.Messages = append(conversation.Messages, choice.Message)
+			req.Messages = append(req.Messages, choice.Message)
+			fmt.Printf("%s > %s\n", choice.Message.Role, choice.Message.Content)
 		}
 	}
 	return nil

@@ -1,14 +1,15 @@
 package edit
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 
-	"github.com/lunarxlark/openai-cli/config"
+	"github.com/lunarxlark/openai-cli/api"
 	"github.com/urfave/cli/v2"
+)
+
+const (
+	url string = "https://api.openai.com/v1/edits"
 )
 
 type Request struct {
@@ -20,44 +21,42 @@ type Request struct {
 	TopP        float64 `json:"top_p"`
 }
 
-const (
-	url string = "https://api.openai.com/v1/edits"
-)
+type Response struct {
+	Object  string   `json:"object"`
+	Created int      `json:"created"`
+	Choices []Choice `json:"choices"`
+	Usage   Usage    `json:"usage"`
+}
+
+type Choice struct {
+	Text  string `json:"text"`
+	Index int    `json:"index"`
+}
+
+type Usage struct {
+	PromptTokens     int `json:"prompt_tokens"`
+	CompletionTokens int `json:"completion_tokens"`
+	TotalTokens      int `json:"total_tokens"`
+}
 
 func Exec(ctx *cli.Context) error {
-	client := http.Client{}
-
-	payload, err := json.Marshal(Request{
+	payload := Request{
 		Model:       ctx.String("model"),
 		Input:       ctx.String("input"),
 		Instruction: ctx.String("instruction"),
 		N:           ctx.Int("n"),
 		Temperature: ctx.Float64("temperature"),
 		TopP:        ctx.Float64("top_p"),
-	})
-	if err != nil {
+	}
+
+	var res Response
+	if err := api.Request(http.MethodPost, url, payload, &res); err != nil {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewReader(payload))
-	if err != nil {
-		return err
+	for _, choice := range res.Choices {
+		fmt.Println(choice.Text)
 	}
-
-	req.Header.Set("Authorization", "Bearer "+config.OAIConfig.APIKey)
-	req.Header.Set("Content-Type", "application/json")
-
-	res, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-	fmt.Println((string(body)))
 
 	return nil
 }
