@@ -52,4 +52,4 @@ cf. [OpenAI API reference](https://platform.openai.com/docs/api-reference)
 
 ## Moderations
 
-- [ ] POST /v1/moderations
+- [x] POST /v1/moderations
