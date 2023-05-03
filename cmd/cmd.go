@@ -1,11 +1,14 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/lunarxlark/openai-cli/cmd/chat"
 	"github.com/lunarxlark/openai-cli/cmd/edit"
 	"github.com/lunarxlark/openai-cli/cmd/file"
 	"github.com/lunarxlark/openai-cli/cmd/image"
 	"github.com/lunarxlark/openai-cli/cmd/model"
+	"github.com/lunarxlark/openai-cli/cmd/moderation"
 	"github.com/urfave/cli/v2"
 )
 
@@ -16,6 +19,7 @@ var Commands = []*cli.Command{
 	&cmdWhisper,
 	&cmdFile,
 	&cmdEdit,
+	&cmdModeration,
 }
 
 var cmdModel = cli.Command{
@@ -103,5 +107,26 @@ var cmdEdit = cli.Command{
 		FlagN,
 		FlagTemperature,
 		FlagTopP,
+	},
+}
+
+var cmdModeration = cli.Command{
+	Name:   "moderation",
+	Action: moderation.Exec,
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:     "input",
+			Required: true,
+		},
+		&cli.StringFlag{
+			Name:  "model",
+			Value: "text-moderation-stable",
+			Action: func(ctx *cli.Context, model string) error {
+				if model != "text-moderation-stable" && model != "text-moderation-latest" {
+					return fmt.Errorf("model must be 'text-moderation-stable' or 'text-moderation-latest'")
+				}
+				return nil
+			},
+		},
 	},
 }
