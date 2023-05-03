@@ -12,7 +12,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/lunarxlark/openai-cli/api"
 	"github.com/lunarxlark/openai-cli/config"
 	"github.com/urfave/cli/v2"
 )
@@ -22,12 +21,18 @@ const (
 )
 
 type ImageReq struct {
-	Prompt         string   `json:"prompt"`          // A text description of the desired image(s). The maximum length is 1000 characters.
-	N              int      `json:"n"`               // The number of images to generate. Must be between 1 and 10.
-	Size           string   `json:"size"`            // The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
-	ResponseFormat string   `json:"response_format"` // The format in which the generated images are returned. Must be one of url or b64_json.
-	User           api.Role `json:"user"`
+	Prompt         string `json:"prompt"`          // A text description of the desired image(s). The maximum length is 1000 characters.
+	N              int    `json:"n"`               // The number of images to generate. Must be between 1 and 10.
+	Size           string `json:"size"`            // The size of the generated images. Must be one of 256x256, 512x512, or 1024x1024.
+	ResponseFormat string `json:"response_format"` // The format in which the generated images are returned. Must be one of url or b64_json.
+	User           Role   `json:"user"`
 }
+
+type Role string
+
+const (
+	User Role = "user"
+)
 
 type ImageRes struct {
 	Created int64 `json:"created"`
@@ -38,13 +43,7 @@ type ImageRes struct {
 }
 
 func Exec(ctx *cli.Context) error {
-	var prompt string
-	if len(ctx.String("prompt")) >= 1000 {
-		prompt = ctx.String("prompt")[:1000]
-	} else {
-		prompt = ctx.String("prompt")
-	}
-
+	prompt := ctx.String("prompt")
 	format := ctx.String("format")
 	size := ctx.String("size")
 
@@ -53,7 +52,7 @@ func Exec(ctx *cli.Context) error {
 		N:              1,
 		Size:           size,
 		ResponseFormat: format,
-		User:           api.User,
+		User:           User,
 	})
 	if err != nil {
 		return err

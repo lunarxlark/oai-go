@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"path/filepath"
 	"time"
@@ -14,7 +15,54 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+const (
+	url = "https://api.openai.com/v1/chat/completions"
+)
+
+type Role string
+
+const (
+	User Role = "user"
+)
+
+// Request
+type request struct {
+	Model       string    `json:"model"`
+	Messages    []Message `json:"messages"`
+	Temperature float64   `json:"temperature"`
+	TopP        float64   `json:"top_p"`
+	User        Role      `json:"user"`
+}
+
+type Message struct {
+	Role    Role   `json:"role"`
+	Content string `json:"content"`
+}
+
+// Response
+type response struct {
+	ID      string   `json:"id"`
+	Object  string   `json:"object"`
+	Created int64    `json:"created"`
+	Model   string   `json:"model"`
+	Usage   Usage    `json:"usage"`
+	Choices []Choice `json:"choices"`
+}
+
+type Usage struct {
+	PromptTokens     int `json:"prompt_tokens"`
+	CompletionTokens int `json:"completion_tokens"`
+	TotalTokens      int `json:"total_tokens"`
+}
+
+type Choice struct {
+	Message      Message `json:"message"`
+	FinishReason string  `json:"finish_reason"`
+	Index        int     `json:"index"`
+}
+
 func CmdNew(ctx *cli.Context) error {
+	var req request
 	m := ctx.String("model")
 	if m == "" {
 		var err error
@@ -24,45 +72,44 @@ func CmdNew(ctx *cli.Context) error {
 		}
 	}
 
-	log, err := os.Create(filepath.Join(config.OAIConfig.Dir, "chat", fmt.Sprintf("%d.json", time.Now().Unix())))
+	req = request{
+		Model:       m,
+		Messages:    []Message{},
+		Temperature: 0,
+		TopP:        0,
+		User:        User,
+	}
+
+	// ログファイルの作成
+	logfile, err := os.Create(filepath.Join(config.OAIConfig.Dir, "chat", fmt.Sprintf("%d.json", time.Now().Unix())))
 	if err != nil {
 		return err
 	}
-	defer log.Close()
-
-	conversation := &Conversation{Model: m}
+	defer logfile.Close()
 
 	sc := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Printf("%s > ", api.User)
+		fmt.Printf("%s > ", User)
 		if !sc.Scan() {
-			conversation.Summary, err = CreateSummay(m, conversation.Messages)
-			b, err := json.MarshalIndent(conversation, "", "  ")
+			b, err := json.MarshalIndent(req, "", "  ")
 			if err != nil {
 				return err
 			}
-			if _, err := log.Write(b); err != nil {
+			if _, err := logfile.Write(b); err != nil {
 				return err
 			}
 			break
 		}
-		statement := []api.Message{{
-			Role:    api.User,
+		req.Messages = append(req.Messages, Message{
+			Role:    User,
 			Content: sc.Text(),
-		}}
-		conversation.Messages = append(conversation.Messages, statement...)
-
-		res, err := api.CreateReq(m, statement).Request()
-		if err != nil {
-			return err
-		}
+		})
+		var res response
+		_ = api.Request(http.MethodPost, url, req, &res)
 
 		for _, choice := range res.Choices {
-			fmt.Println(choice.Message.String())
-			conversation.Messages = append(conversation.Messages, api.Message{
-				Role:    choice.Message.Role,
-				Content: choice.Message.Content,
-			})
+			req.Messages = append(req.Messages, choice.Message)
+			fmt.Printf("%s > %s\n", choice.Message.Role, choice.Message.Content)
 		}
 	}
 	return nil
