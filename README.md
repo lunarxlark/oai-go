@@ -4,39 +4,52 @@
 
 cf. [OpenAI API reference](https://platform.openai.com/docs/api-reference)
 
+## Models
+
 - [x] GET /v1/models
+- [x] GET /v1/models/{model}
 
-```bash
-$ openai-cli model list
-```
+## Completions
 
-- [x] /v1/models/{model}
+- [ ] POST /v1/completions
+- [x] POST /v1/chat/completions
 
-```bash
-$ openai-cli model list
-```
-
-- [ ] /v1/completions
-- [x] /v1/chat/completions
-
-```bash
-$ openai-cli chat new
-```
-
-```bash
-$ openai-cli chat continue
-```
+## Edits
 
 - [x] POST /v1/edits
-- [x] /v1/images/generatoins
 
-```bash
-$ openai-cli image --promt "cat"
-```
+## Images
 
-- [ ] /v1/images/edits
-- [ ] /v1/images/variations
-- [ ] /v1/embeddings
-- [ ] /v1/audio/transcriptions
-- [ ] /v1/audio/translations
-- [ ] /v1/files
+- [x] POST /v1/images/generatoins
+- [ ] POST /v1/images/edits
+- [ ] POST /v1/images/variations
+
+## Embeddings
+
+- [ ] POST /v1/embeddings
+
+## Audio
+
+- [ ] POST /v1/audio/transcriptions
+- [ ] POST /v1/audio/translations
+
+## Files
+
+- [x] GET /v1/files
+- [x] GET /v1/files/{file_id}
+- [x] GET /v1/files/{file_id}/content
+- [ ] POST /v1/files
+- [ ] DELETE /v1/files/{file_id}
+
+## Fine-tunes
+
+- [ ] GET /v1/fine-tunes
+- [ ] GET /v1/fine-tunes/{fine_tune_id}
+- [ ] GET /v1/fine-tunes/{fine_tune_id}/events
+- [ ] POST /v1/fine-tunes
+- [ ] POST /v1/fine-tunes/{fine_tune_id}/cancel
+- [ ] DELETE /v1/models/{model}
+
+## Moderations
+
+- [ ] POST /v1/moderations
