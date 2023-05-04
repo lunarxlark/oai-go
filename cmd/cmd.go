@@ -115,7 +115,8 @@ var cmdFile = cli.Command{
 		{
 			Name:   "list",
 			Action: file.List,
-		}, {
+		},
+		{
 			Name:   "upload",
 			Action: file.Upload,
 			Flags: []cli.Flag{
@@ -125,6 +126,16 @@ var cmdFile = cli.Command{
 				},
 				&cli.StringFlag{
 					Name:     "purpose",
+					Required: true,
+				},
+			},
+		},
+		{
+			Name:   "delete",
+			Action: file.Delete,
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "file_id",
 					Required: true,
 				},
 			},
