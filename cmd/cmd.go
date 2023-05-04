@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/lunarxlark/openai-cli/cmd/chat"
+	"github.com/lunarxlark/openai-cli/cmd/completion"
 	"github.com/lunarxlark/openai-cli/cmd/edit"
 	"github.com/lunarxlark/openai-cli/cmd/file"
 	"github.com/lunarxlark/openai-cli/cmd/image"
@@ -14,6 +15,7 @@ import (
 
 var Commands = []*cli.Command{
 	&cmdModel,
+	&cmdCompletion,
 	&cmdChat,
 	&cmdImage,
 	&cmdWhisper,
@@ -31,6 +33,32 @@ var cmdModel = cli.Command{
 			Aliases:     []string{"l"},
 			Description: "list model",
 			Action:      model.CmdList,
+		},
+	},
+}
+
+var cmdCompletion = cli.Command{
+	Name:   "completion",
+	Action: completion.Exec,
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:  "model",
+			Value: "text-davinci-003",
+		},
+		&cli.StringFlag{
+			Name: "prompt",
+		},
+		FlagN,
+		&cli.StringFlag{
+			Name: "stop",
+		},
+		&cli.BoolFlag{
+			Name:  "echo",
+			Usage: "Echo back the prompt in addition to the completion",
+			Value: false,
+		},
+		&cli.StringFlag{
+			Name: "user",
 		},
 	},
 }

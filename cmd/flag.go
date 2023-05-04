@@ -19,6 +19,7 @@ var FlagPrompt = &cli.StringFlag{
 
 var FlagN = &cli.IntFlag{
 	Name:  "n",
+	Usage: "How many completions to generate for each prompt.",
 	Value: 1,
 }
 
