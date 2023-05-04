@@ -140,6 +140,16 @@ var cmdFile = cli.Command{
 				},
 			},
 		},
+		{
+			Name:   "content",
+			Action: file.Content,
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "file_id",
+					Required: true,
+				},
+			},
+		},
 	},
 }
 
