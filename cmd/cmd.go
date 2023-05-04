@@ -114,7 +114,12 @@ var cmdFile = cli.Command{
 	Subcommands: []*cli.Command{
 		{
 			Name:   "list",
-			Action: file.List,
+			Action: file.Do,
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name: "file_id",
+				},
+			},
 		},
 		{
 			Name:   "upload",

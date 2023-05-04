@@ -36,8 +36,8 @@ cf. [OpenAI API reference](https://platform.openai.com/docs/api-reference)
 ## Files
 
 - [x] GET /v1/files
-- [ ] GET /v1/files/{file_id}
-- [ ] GET /v1/files/{file_id}/content
+- [x] GET /v1/files/{file_id}
+- [x] GET /v1/files/{file_id}/content
 - [x] POST /v1/files
 - [x] DELETE /v1/files/{file_id}
 
