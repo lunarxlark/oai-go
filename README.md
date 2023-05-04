@@ -11,7 +11,7 @@ cf. [OpenAI API reference](https://platform.openai.com/docs/api-reference)
 
 ## Completions
 
-- [ ] POST /v1/completions
+- [x] POST /v1/completions
 - [x] POST /v1/chat/completions
 
 ## Edits
