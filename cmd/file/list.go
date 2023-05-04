@@ -26,9 +26,28 @@ type Data struct {
 	Purpose   string `json:"purpose"`
 }
 
+func Do(ctx *cli.Context) error {
+	if ctx.String("file_id") != "" {
+		return Get(ctx)
+	} else {
+		return List(ctx)
+	}
+}
+
 func List(ctx *cli.Context) error {
 	var res Response
 	if err := api.Request(http.MethodGet, url, nil, &res); err != nil {
+		return err
+	}
+
+	// TODO:fix output
+	pp.Println(res)
+	return nil
+}
+
+func Get(ctx *cli.Context) error {
+	var res Data
+	if err := api.Request(http.MethodGet, url+"/"+ctx.String("file_id"), nil, &res); err != nil {
 		return err
 	}
 
