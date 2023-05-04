@@ -115,9 +115,19 @@ var cmdFile = cli.Command{
 		{
 			Name:   "list",
 			Action: file.List,
-			// }, {
-			// 	Name:   "upload",
-			// 	Action: file.Upload,
+		}, {
+			Name:   "upload",
+			Action: file.Upload,
+			Flags: []cli.Flag{
+				&cli.StringFlag{
+					Name:     "file",
+					Required: true,
+				},
+				&cli.StringFlag{
+					Name:     "purpose",
+					Required: true,
+				},
+			},
 		},
 	},
 }
