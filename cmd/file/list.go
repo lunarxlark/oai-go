@@ -26,7 +26,7 @@ type Data struct {
 	Purpose   string `json:"purpose"`
 }
 
-func Do(ctx *cli.Context) error {
+func cmdList(ctx *cli.Context) error {
 	if ctx.String("file_id") != "" {
 		return Get(ctx)
 	} else {

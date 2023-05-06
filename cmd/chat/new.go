@@ -61,7 +61,7 @@ type Choice struct {
 	Index        int     `json:"index"`
 }
 
-func CmdNew(ctx *cli.Context) error {
+func cmdNew(ctx *cli.Context) error {
 	var req request
 	m := ctx.String("model")
 	if m == "" {

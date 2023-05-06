@@ -45,7 +45,7 @@ type Result struct {
 	Flagged bool `json:"flagged"`
 }
 
-func Exec(ctx *cli.Context) error {
+func cmdModeration(ctx *cli.Context) error {
 	req := Request{
 		Input: ctx.String("input"),
 		Model: ctx.String("model"),

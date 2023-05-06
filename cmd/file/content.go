@@ -10,7 +10,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func Content(ctx *cli.Context) error {
+func cmdContent(ctx *cli.Context) error {
 
 	url := fmt.Sprintf("%s/%s/content", url, ctx.String("file_id"))
 

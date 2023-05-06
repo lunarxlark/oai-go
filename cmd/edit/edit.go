@@ -39,7 +39,7 @@ type Usage struct {
 	TotalTokens      int `json:"total_tokens"`
 }
 
-func Exec(ctx *cli.Context) error {
+func cmdEdit(ctx *cli.Context) error {
 	payload := Request{
 		Model:       ctx.String("model"),
 		Input:       ctx.String("input"),

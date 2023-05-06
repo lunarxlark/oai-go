@@ -19,7 +19,7 @@ const (
 	url = "https://api.openai.com/v1/models"
 )
 
-func CmdList(ctx *cli.Context) error {
+func cmdList(ctx *cli.Context) error {
 	modelID, err := List()
 	if err != nil {
 		return err
