@@ -16,7 +16,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func CmdContinue(ctx *cli.Context) error {
+func cmdContinue(ctx *cli.Context) error {
 	fs, err := ListLog()
 	if err != nil {
 		return err

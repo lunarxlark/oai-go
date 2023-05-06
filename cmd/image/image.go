@@ -42,7 +42,7 @@ type ImageRes struct {
 	} `json:"data"`
 }
 
-func Exec(ctx *cli.Context) error {
+func cmdCreate(ctx *cli.Context) error {
 	prompt := ctx.String("prompt")
 	format := ctx.String("format")
 	size := ctx.String("size")

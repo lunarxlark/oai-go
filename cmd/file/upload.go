@@ -27,7 +27,7 @@ type ResponseFileUpload struct {
 	Purpose   string `json:"purpose"`
 }
 
-func Upload(ctx *cli.Context) error {
+func cmdUpload(ctx *cli.Context) error {
 	var buf bytes.Buffer
 	writer := multipart.NewWriter(&buf)
 

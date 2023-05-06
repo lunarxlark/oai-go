@@ -14,7 +14,7 @@ type ResponseFileDelete struct {
 	Deleted bool   `json:"deleted"`
 }
 
-func Delete(ctx *cli.Context) error {
+func cmdDelete(ctx *cli.Context) error {
 
 	url := fmt.Sprintf("%s/%s", url, ctx.String("file_id"))
 

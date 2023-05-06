@@ -50,7 +50,7 @@ type Choice struct {
 	FinishReason string `json:"finish_reason"`
 }
 
-func Exec(ctx *cli.Context) error {
+func cmdCompletion(ctx *cli.Context) error {
 	req := Request{
 		Model:       ctx.String("model"),
 		Prompt:      ctx.String("prompt"),

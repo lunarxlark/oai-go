@@ -8,7 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func Clear(ctx *cli.Context) error {
+func cmdClear(ctx *cli.Context) error {
 	os.RemoveAll(filepath.Join(config.OAIConfig.Dir, "chat", "*"))
 	return nil
 }
